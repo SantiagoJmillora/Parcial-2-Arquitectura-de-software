@@ -28,20 +28,48 @@ namespace BibFarmacia.Factories
             string nombre,
             decimal precio,
             int stock,
+            int stockMinimo,
+            DateTime fechaVencimiento,
             Laboratorio laboratorio)
         {
             return (MedicamentoCapsula)_creadorCapsula.Crear(
-                nombre, precio, stock, laboratorio);
+                nombre, precio, stock, stockMinimo, fechaVencimiento, laboratorio);
         }
 
         public static MedicamentoLiquido CrearLiquido(
             string nombre,
             decimal precio,
             int stock,
+            int stockMinimo,
+            DateTime fechaVencimiento,
             Laboratorio laboratorio)
         {
             return (MedicamentoLiquido)_creadorLiquido.Crear(
-                nombre, precio, stock, laboratorio);
+                nombre, precio, stock, stockMinimo, fechaVencimiento, laboratorio);
+        }
+
+        /// <summary>
+        /// Punto único de despacho por tipo (P-01): decide qué IProductoCreador usar
+        /// según el texto leído del archivo, en vez de que el llamador conozca las
+        /// clases concretas. Agregar un tipo nuevo (ej. "cosmetico") es una entrada
+        /// más en este switch y un IProductoCreador nuevo — no toca al llamador.
+        /// Si el archivo no trae columna de tipo (formato actual), se preserva el
+        /// comportamiento histórico: cápsula.
+        /// </summary>
+        public static Producto CrearPorTipo(
+            string? tipo,
+            string nombre,
+            decimal precio,
+            int stock,
+            int stockMinimo,
+            DateTime fechaVencimiento,
+            Laboratorio laboratorio)
+        {
+            return (tipo?.Trim().ToLowerInvariant()) switch
+            {
+                "liquido" => CrearLiquido(nombre, precio, stock, stockMinimo, fechaVencimiento, laboratorio),
+                _ => CrearCapsula(nombre, precio, stock, stockMinimo, fechaVencimiento, laboratorio),
+            };
         }
     }
 }

@@ -7,11 +7,10 @@ namespace BibFarmacia.Factories
 {
     /// <summary>
     /// Implementación de IProductoCreador para MedicamentoCapsula.
-    /// Encapsula los valores específicos predeterminados de cápsulas:
-    ///   - StockMinimo: 5
-    ///   - FechaVencimiento: DateTime.Now.AddMonths(6)
-    ///   - TipoRelleno: TipoRelleno.Gel
-    /// Estos valores son exactamente los mismos que tenía ProductoFactory.CrearCapsula.
+    /// stockMinimo y fechaVencimiento vienen del llamador (ej. el archivo de
+    /// productos); el único valor específico de cápsulas que esta clase
+    /// decide es TipoRelleno.Gel, igual que hacía RepositorioProductoArchivo
+    /// antes de conectarse a la fábrica.
     /// </summary>
     public class CreadorCapsula : IProductoCreador
     {
@@ -19,14 +18,16 @@ namespace BibFarmacia.Factories
             string nombre,
             decimal precio,
             int stock,
+            int stockMinimo,
+            DateTime fechaVencimiento,
             Laboratorio laboratorio)
         {
             return new MedicamentoCapsula(
                 nombre,
                 precio,
                 stock,
-                5,
-                DateTime.Now.AddMonths(6),
+                stockMinimo,
+                fechaVencimiento,
                 laboratorio,
                 TipoRelleno.Gel);
         }

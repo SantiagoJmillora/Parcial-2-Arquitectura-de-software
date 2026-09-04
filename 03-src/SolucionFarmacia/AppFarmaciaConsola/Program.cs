@@ -1,7 +1,9 @@
 using BibFarmacia.Aspectos;
 using BibFarmacia.Clases;
+using BibFarmacia.Comandos;
 using BibFarmacia.Eventos;
 using BibFarmacia.Factories;
+using BibFarmacia.Interfaces;
 using BibFarmacia.Repositorios;
 using BibFarmacia.Servicios;
 
@@ -43,52 +45,55 @@ ServicioUsuario servicioUsuario =
 ServicioMovimiento servicioMovimiento =
     new ServicioMovimiento(eventoMovimiento);
 
+// ServicioVentas (Reto 2, P-02/SC-3): antes tenía 0 referencias. Ahora la
+// usa FarmaciaFacade.RegistrarVenta para aplicar el descuento de convenio
+// (Strategy) cuando el cliente de la venta tiene uno asociado.
+ServicioVentas servicioVentas =
+    new ServicioVentas();
+
+// Facade (Reto 2, P-02/P-04/P-07): punto de entrada único para las
+// operaciones que antes coordinaba este archivo directamente.
+FarmaciaFacade facade =
+    new FarmaciaFacade(
+        servicioProducto,
+        servicioCliente,
+        servicioMovimiento,
+        servicioVentas);
+
 // ================= EVENTOS =================
+// Observer (Reto 2, P-03): antes cada evento se suscribía con una lambda que
+// repetía Console.ForegroundColor/WriteLine/ResetColor (4 veces). Ahora cada
+// evento se suscribe una sola vez a un único ConcreteObserver
+// (ServicioNotificacion), que centraliza ese formateo. El color por tipo de
+// alerta se preserva pasándolo como parámetro, para no cambiar la salida.
+
+IServicioNotificacion servicioNotificacion =
+    new ServicioNotificacion();
 
 servicioProducto.EventoStock.StockMinimo +=
     mensaje =>
-    {
-        Console.ForegroundColor =
-            ConsoleColor.Red;
-
-        Console.WriteLine(mensaje);
-
-        Console.ResetColor();
-    };
+        servicioNotificacion.EnviarNotificacion(
+            mensaje,
+            ConsoleColor.Red);
 
 servicioProducto.EventoVencimiento.Vencimiento +=
     mensaje =>
-    {
-        Console.ForegroundColor =
-            ConsoleColor.Yellow;
-
-        Console.WriteLine(mensaje);
-
-        Console.ResetColor();
-    };
+        servicioNotificacion.EnviarNotificacion(
+            mensaje,
+            ConsoleColor.Yellow);
 
 servicioCliente.EventoPuntos.PuntosAcumulados +=
     mensaje =>
-    {
-        Console.ForegroundColor =
-            ConsoleColor.Green;
-
-        Console.WriteLine(mensaje);
-
-        Console.ResetColor();
-    };
+        servicioNotificacion.EnviarNotificacion(
+            mensaje,
+            ConsoleColor.Green);
 
 servicioMovimiento.EventoMovimiento
     .MovimientoRegistrado +=
     mensaje =>
-    {
-        Console.ForegroundColor =
-            ConsoleColor.Cyan;
-
-        Console.WriteLine(mensaje);
-
-        Console.ResetColor();
-    };
+        servicioNotificacion.EnviarNotificacion(
+            mensaje,
+            ConsoleColor.Cyan);
 
 // ================= CARGA TXT =================
 
@@ -183,6 +188,21 @@ servicioProducto.VerificarStock();
 servicioProducto.VerificarVencimiento();
 
 // ================= MENÚ =================
+// Command (Reto 2, P-02/P-04/P-06/P-07): el switch de 8 casos se reemplaza
+// por un diccionario de comandos. Este archivo (Invoker) solo selecciona y
+// ejecuta — ya no contiene la lógica de negocio de cada opción.
+
+Dictionary<int, IComandoMenu> comandos =
+    new()
+    {
+        { 1, new ComandoVerProductos(facade) },
+        { 2, new ComandoVerClientes(facade) },
+        { 3, new ComandoBuscarProducto(facade) },
+        { 4, new ComandoRegistrarVenta(facade) },
+        { 5, new ComandoAcumularPuntos(facade) },
+        { 6, new ComandoVerAlertas(facade) },
+        { 7, new ComandoEjecutarDemostracion(facade) },
+    };
 
 int opcion = 0;
 
@@ -211,338 +231,25 @@ while (opcion != 8)
     opcion =
         int.Parse(Console.ReadLine()!);
 
-    switch (opcion)
+    if (opcion == 8)
     {
-        case 1:
+        Console.ForegroundColor =
+            ConsoleColor.Red;
 
-            Console.ForegroundColor =
-                ConsoleColor.Cyan;
+        Console.WriteLine(
+            "\nSaliendo del sistema...");
 
-            Console.WriteLine(
-                "\n===== PRODUCTOS =====");
-
-            Console.ResetColor();
-
-            Console.WriteLine(
-                "Nombre\t\tStock\tPrecio");
-
-            Console.WriteLine(
-                "-----------------------------------");
-
-            foreach (var producto in
-                servicioProducto.ObtenerProductos())
-            {
-                Console.WriteLine(
-                    $"{producto.Nombre}\t\t" +
-                    $"{producto.Stock}\t" +
-                    $"{producto.Precio}");
-            }
-
-            break;
-
-        case 2:
-
-            Console.ForegroundColor =
-                ConsoleColor.Green;
-
-            Console.WriteLine(
-                "\n===== CLIENTES =====");
-
-            Console.ResetColor();
-
-            foreach (var cliente in
-                servicioCliente.ObtenerClientes())
-            {
-                Console.WriteLine(
-                    $"{cliente.Nombre} - " +
-                    $"Puntos: {cliente.Puntos}");
-            }
-
-            break;
-
-        case 3:
-
-            Console.Write(
-                "\nIngrese nombre producto: ");
-
-            string nombre =
-                Console.ReadLine()!;
-
-            var productoBuscado =
-                servicioProducto
-                .ObtenerProductos()
-                .FirstOrDefault(p =>
-                    p.Nombre.ToLower()
-                    .Contains(nombre.ToLower()));
-
-            if (productoBuscado != null)
-            {
-                Console.WriteLine(
-                    $"\nProducto: " +
-                    $"{productoBuscado.Nombre}");
-
-                Console.WriteLine(
-                    $"Precio: " +
-                    $"{productoBuscado.Precio}");
-
-                Console.WriteLine(
-                    $"Stock: " +
-                    $"{productoBuscado.Stock}");
-            }
-            else
-            {
-                Console.WriteLine(
-                    "\nProducto no encontrado");
-            }
-
-            break;
-
-        case 4:
-
-            Console.Write(
-                "\nNombre producto: ");
-
-            string nombreVenta =
-                Console.ReadLine()!;
-
-            var productoVenta =
-                servicioProducto
-                .ObtenerProductos()
-                .FirstOrDefault(p =>
-                    p.Nombre.ToLower()
-                    .Contains(
-                        nombreVenta.ToLower()));
-
-            if (productoVenta != null)
-            {
-                Console.Write(
-                    "Cantidad: ");
-
-                int cantidad =
-                    int.Parse(
-                        Console.ReadLine()!);
-
-                productoVenta.Stock -=
-                    cantidad;
-
-                Movimiento venta =
-                    new Movimiento(
-                        DateTime.Now,
-                        cantidad,
-                        "Venta",
-                        productoVenta);
-
-                servicioMovimiento
-                    .RegistrarMovimiento(
-                        venta);
-
-                Console.WriteLine(
-                    "\nVenta registrada");
-            }
-            else
-            {
-                Console.WriteLine(
-                    "\nProducto no encontrado");
-            }
-
-            break;
-
-        case 5:
-
-            Console.Write(
-                "\nNombre cliente: ");
-
-            string nombreCliente =
-                Console.ReadLine()!;
-
-            var clientePuntos =
-                servicioCliente
-                .ObtenerClientes()
-                .FirstOrDefault(c =>
-                    c.Nombre.ToLower()
-                    .Contains(
-                        nombreCliente.ToLower()));
-
-            if (clientePuntos != null)
-            {
-                Console.Write(
-                    "Puntos: ");
-
-                int puntos =
-                    int.Parse(
-                        Console.ReadLine()!);
-
-                servicioCliente
-                    .AcumularPuntos(
-                        clientePuntos,
-                        puntos);
-            }
-            else
-            {
-                Console.WriteLine(
-                    "\nCliente no encontrado");
-            }
-
-            break;
-
-        case 6:
-
-            Console.WriteLine(
-                "\nVerificando alertas...");
-
-            servicioProducto
-                .VerificarStock();
-
-            servicioProducto
-                .VerificarVencimiento();
-
-            break;
-
-        case 7:
-
-            EjecutarDemostracion(
-                servicioProducto,
-                servicioCliente,
-                servicioMovimiento);
-
-            break;
-
-        case 8:
-
-            Console.ForegroundColor =
-                ConsoleColor.Red;
-
-            Console.WriteLine(
-                "\nSaliendo del sistema...");
-
-            Console.ResetColor();
-
-            break;
-
-        default:
-
-            Console.WriteLine(
-                "\nOpción inválida");
-
-            break;
+        Console.ResetColor();
     }
-}
-
-static void EjecutarDemostracion(
-    ServicioProducto servicioProducto,
-    ServicioCliente servicioCliente,
-    ServicioMovimiento servicioMovimiento)
-{
-    Console.ForegroundColor =
-        ConsoleColor.Blue;
-
-    Console.WriteLine(
-        "\n===== DEMOSTRACIÓN DE USOS CLAVE =====");
-
-    Console.ResetColor();
-
-    var productos =
-        servicioProducto.ObtenerProductos();
-    var clientes =
-        servicioCliente.ObtenerClientes();
-
-    Console.WriteLine(
-        $"Productos cargados: {productos.Count}");
-    Console.WriteLine(
-        $"Clientes cargados: {clientes.Count}");
-
-    if (productos.Any())
+    else if (comandos.TryGetValue(opcion, out var comando))
     {
-        var producto = productos.First();
-
-        Console.WriteLine(
-            $"\nProducto de demostración: {producto.Nombre}");
-        Console.WriteLine(
-            $"Precio: {producto.Precio}");
-        Console.WriteLine(
-            $"Stock actual: {producto.Stock}");
-
-        Console.WriteLine(
-            "\nBuscando el mismo producto por nombre...");
-
-        var busqueda =
-            productos.FirstOrDefault(p =>
-                p.Nombre.ToLower()
-                    .Contains(producto.Nombre.ToLower()));
-
-        if (busqueda != null)
-        {
-            Console.WriteLine(
-                $"Producto encontrado: {busqueda.Nombre}");
-        }
-
-        if (producto.Stock > 0)
-        {
-            Console.WriteLine(
-                "\nRegistrando venta de 1 unidad...");
-
-            producto.Stock -= 1;
-
-            Movimiento movimiento =
-                new Movimiento(
-                    DateTime.Now,
-                    1,
-                    "Venta",
-                    producto);
-
-            servicioMovimiento
-                .RegistrarMovimiento(movimiento);
-
-            Console.WriteLine(
-                "Venta registrada en el sistema.");
-            Console.WriteLine(
-                $"Stock después de la venta: {producto.Stock}");
-        }
-        else
-        {
-            Console.WriteLine(
-                "No hay stock suficiente para la venta de demostración.");
-        }
+        comando.Ejecutar();
     }
     else
     {
         Console.WriteLine(
-            "\nNo hay productos cargados para la demostración.");
+            "\nOpción inválida");
     }
-
-    if (clientes.Any())
-    {
-        var cliente = clientes.First();
-
-        Console.WriteLine(
-            $"\nCliente de demostración: {cliente.Nombre}");
-        Console.WriteLine(
-            $"Puntos actuales: {cliente.Puntos}");
-
-        Console.WriteLine(
-            "Acumulando 50 puntos al cliente...");
-
-        servicioCliente.AcumularPuntos(
-            cliente,
-            50);
-
-        Console.WriteLine(
-            $"Puntos después de la demostración: {cliente.Puntos}");
-    }
-    else
-    {
-        Console.WriteLine(
-            "\nNo hay clientes cargados para la demostración.");
-    }
-
-    Console.WriteLine(
-        "\nVerificando alertas de stock y vencimiento...");
-
-    servicioProducto.VerificarStock();
-    servicioProducto.VerificarVencimiento();
-
-    Console.WriteLine(
-        "\nDemostración completada. Revise los mensajes anteriores para ver los eventos y resultados.");
 }
 
 Console.WriteLine(

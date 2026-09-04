@@ -1,0 +1,695 @@
+EVIDENCIA CRUDA - Actividad 4.2 (actualizado tras activar SC-3)
+Generado ejecutando 03-src/SolucionFarmacia/AppFarmaciaConsola con entradas scripteadas por stdin.
+C-01,C-02,C-03,C-04,C-06,C-07: identicos antes/despues (0 diferencias).
+C-05,C-08: solo difieren en la nueva linea de prompt 'Nombre cliente' (SC-3), sin descuento aplicado.
+C-11: nuevo, demuestra el descuento de convenio real (Carlos, 15%).
+
+================= C-01 =================
+--- entrada (stdin) ---
+admin
+1234
+1
+8
+--- diff antes vs despues ---
+(sin diferencias)
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+===== PRODUCTOS =====
+Nombre		Stock	Precio
+-----------------------------------
+Dolex		2	5000
+Ibuprofeno		10	7000
+Amoxicilina		1	12000
+Acetaminofen		8	4500
+Omeprazol		20	15000
+Loratadina		4	9000
+VitaminaC		15	6000
+Diclofenaco		3	11000
+Aspirina		9	7500
+Naproxeno		7	13500
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-02 =================
+--- entrada (stdin) ---
+admin
+1234
+2
+8
+--- diff antes vs despues ---
+(sin diferencias)
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+===== CLIENTES =====
+Carlos - Puntos: 0
+Ana - Puntos: 0
+Juan - Puntos: 0
+Maria - Puntos: 0
+Pedro - Puntos: 0
+Laura - Puntos: 0
+Sofia - Puntos: 0
+Camilo - Puntos: 0
+Valentina - Puntos: 0
+Andres - Puntos: 0
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-03 =================
+--- entrada (stdin) ---
+admin
+wrongpass
+--- diff antes vs despues ---
+(sin diferencias)
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Acceso denegado
+
+================= C-04 =================
+--- entrada (stdin) ---
+admin
+1234
+3
+Amoxicilina
+8
+--- diff antes vs despues ---
+(sin diferencias)
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Ingrese nombre producto: 
+Producto: Amoxicilina
+Precio: 12000
+Stock: 1
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-05 =================
+--- entrada (stdin) ---
+admin
+1234
+4
+Amoxicilina
+1
+
+6
+8
+--- diff antes vs despues ---
+38c38
+< Nombre producto: Cantidad: Movimiento registrado: Venta
+---
+> Nombre producto: Cantidad: Nombre cliente (Enter para omitir): Movimiento registrado: Venta
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Nombre producto: Cantidad: Nombre cliente (Enter para omitir): Movimiento registrado: Venta
+
+Venta registrada
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Verificando alertas...
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-06 =================
+--- entrada (stdin) ---
+admin
+1234
+5
+Carlos
+20
+2
+8
+--- diff antes vs despues ---
+(sin diferencias)
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Nombre cliente: Puntos: Cliente Carlos acumul¢ 20 puntos
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+===== CLIENTES =====
+Carlos - Puntos: 20
+Ana - Puntos: 0
+Juan - Puntos: 0
+Maria - Puntos: 0
+Pedro - Puntos: 0
+Laura - Puntos: 0
+Sofia - Puntos: 0
+Camilo - Puntos: 0
+Valentina - Puntos: 0
+Andres - Puntos: 0
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-07 =================
+--- entrada (stdin) ---
+admin
+1234
+7
+8
+--- diff antes vs despues ---
+(sin diferencias)
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+===== DEMOSTRACIàN DE USOS CLAVE =====
+Productos cargados: 10
+Clientes cargados: 10
+
+Producto de demostraci¢n: Dolex
+Precio: 5000
+Stock actual: 2
+
+Buscando el mismo producto por nombre...
+Producto encontrado: Dolex
+
+Registrando venta de 1 unidad...
+Movimiento registrado: Venta
+Venta registrada en el sistema.
+Stock despu‚s de la venta: 1
+
+Cliente de demostraci¢n: Carlos
+Puntos actuales: 0
+Acumulando 50 puntos al cliente...
+Cliente Carlos acumul¢ 50 puntos
+Puntos despu‚s de la demostraci¢n: 50
+
+Verificando alertas de stock y vencimiento...
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+Demostraci¢n completada. Revise los mensajes anteriores para ver los eventos y resultados.
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-08 =================
+--- entrada (stdin) ---
+admin
+1234
+4
+Omeprazol
+2
+
+8
+--- diff antes vs despues ---
+38c38
+< Nombre producto: Cantidad: Movimiento registrado: Venta
+---
+> Nombre producto: Cantidad: Nombre cliente (Enter para omitir): Movimiento registrado: Venta
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Nombre producto: Cantidad: Nombre cliente (Enter para omitir): Movimiento registrado: Venta
+
+Venta registrada
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-11 =================
+--- entrada (stdin) ---
+admin
+1234
+4
+Omeprazol
+2
+Carlos
+8
+--- diff antes vs despues ---
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Nombre producto: Cantidad: Nombre cliente (Enter para omitir): Movimiento registrado: Venta
+
+Venta registrada
+Total con descuento de convenio (Convenio Empresa Salud): 25500,00
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+

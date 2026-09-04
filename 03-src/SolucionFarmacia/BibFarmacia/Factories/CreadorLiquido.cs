@@ -7,12 +7,10 @@ namespace BibFarmacia.Factories
 {
     /// <summary>
     /// Implementación de IProductoCreador para MedicamentoLiquido.
-    /// Encapsula los valores específicos predeterminados de líquidos:
-    ///   - StockMinimo: 5
-    ///   - FechaVencimiento: DateTime.Now.AddMonths(12)
-    ///   - MaterialEnvase: MaterialEnvase.Vidrio
-    ///   - Mililitros: 120
-    /// Estos valores son exactamente los mismos que tenía ProductoFactory.CrearLiquido.
+    /// stockMinimo y fechaVencimiento vienen del llamador. MaterialEnvase y
+    /// Mililitros no existen todavía en el formato de productos.txt, así que
+    /// esta clase mantiene los valores predeterminados que ya tenía
+    /// ProductoFactory.CrearLiquido (Vidrio, 120 ml).
     /// </summary>
     public class CreadorLiquido : IProductoCreador
     {
@@ -20,14 +18,16 @@ namespace BibFarmacia.Factories
             string nombre,
             decimal precio,
             int stock,
+            int stockMinimo,
+            DateTime fechaVencimiento,
             Laboratorio laboratorio)
         {
             return new MedicamentoLiquido(
                 nombre,
                 precio,
                 stock,
-                5,
-                DateTime.Now.AddMonths(12),
+                stockMinimo,
+                fechaVencimiento,
                 laboratorio,
                 MaterialEnvase.Vidrio,
                 120);

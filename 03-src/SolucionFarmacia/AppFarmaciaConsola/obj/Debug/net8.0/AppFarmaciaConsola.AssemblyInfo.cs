@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AppFarmaciaConsola")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1a985b77e4757ad0ab7b2694e23988da325aeb5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c19da6fb6888ced63487d930d0ad400057f8ceff")]
 [assembly: System.Reflection.AssemblyProductAttribute("AppFarmaciaConsola")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AppFarmaciaConsola")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
