@@ -1,8 +1,13 @@
-EVIDENCIA CRUDA - Actividad 4.2 (actualizado tras activar SC-3)
+EVIDENCIA CRUDA - Actividad 4.2 (version final, 12 casos)
 Generado ejecutando 03-src/SolucionFarmacia/AppFarmaciaConsola con entradas scripteadas por stdin.
 C-01,C-02,C-03,C-04,C-06,C-07: identicos antes/despues (0 diferencias).
 C-05,C-08: solo difieren en la nueva linea de prompt 'Nombre cliente' (SC-3), sin descuento aplicado.
 C-11: nuevo, demuestra el descuento de convenio real (Carlos, 15%).
+C-09,C-10,C-12: nuevos, rutas de error (opcion invalida / producto no encontrado / cliente no
+  encontrado). No se pudo re-ejecutar el binario original en esta maquina (fallo de build de la copia
+  aislada, ver nota abajo) asi que el 'antes' se verifico por comparacion directa del codigo fuente:
+  las 3 lineas de mensaje (Opcion invalida / Producto no encontrado / Cliente no encontrado) son
+  texto identico, caracter por caracter, entre el switch original y los Comandos nuevos.
 
 ================= C-01 =================
 --- entrada (stdin) ---
@@ -622,6 +627,154 @@ Saliendo del sistema...
 
 FIN DEL SISTEMA
 
+================= C-09 =================
+--- entrada (stdin) ---
+admin
+1234
+99
+0
+8
+--- diff antes vs despues: no aplica (ver nota de cabecera) ---
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Opci¢n inv lida
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Opci¢n inv lida
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-10 =================
+--- entrada (stdin) ---
+admin
+1234
+4
+ProductoQueNoExiste
+8
+--- diff antes vs despues: no aplica (ver nota de cabecera) ---
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Nombre producto: 
+Producto no encontrado
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
 ================= C-11 =================
 --- entrada (stdin) ---
 admin
@@ -631,7 +784,7 @@ Omeprazol
 2
 Carlos
 8
---- diff antes vs despues ---
+--- diff antes vs despues: no aplica (ver nota de cabecera) ---
 
 --- salida completa (despues) ---
 Cargando informaci¢n del sistema...
@@ -675,6 +828,73 @@ Nombre producto: Cantidad: Nombre cliente (Enter para omitir): Movimiento regist
 
 Venta registrada
 Total con descuento de convenio (Convenio Empresa Salud): 25500,00
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Saliendo del sistema...
+
+FIN DEL SISTEMA
+
+================= C-12 =================
+--- entrada (stdin) ---
+admin
+1234
+5
+ClienteQueNoExiste
+8
+--- diff antes vs despues: no aplica (ver nota de cabecera) ---
+
+--- salida completa (despues) ---
+Cargando informaci¢n del sistema...
+
+Productos cargados
+Clientes cargados
+Usuarios cargados
+
+=========== LOGIN ===========
+Usuario: Contrase¤a: 
+Login correcto
+ALERTA: stock m¡nimo de Dolex
+ALERTA: stock m¡nimo de Amoxicilina
+ALERTA: stock m¡nimo de Loratadina
+ALERTA: stock m¡nimo de Diclofenaco
+ALERTA: Dolex pr¢ximo a vencer
+ALERTA: Ibuprofeno pr¢ximo a vencer
+ALERTA: Amoxicilina pr¢ximo a vencer
+ALERTA: Acetaminofen pr¢ximo a vencer
+ALERTA: Omeprazol pr¢ximo a vencer
+ALERTA: Loratadina pr¢ximo a vencer
+ALERTA: VitaminaC pr¢ximo a vencer
+ALERTA: Diclofenaco pr¢ximo a vencer
+ALERTA: Aspirina pr¢ximo a vencer
+ALERTA: Naproxeno pr¢ximo a vencer
+
+==============================
+      SISTEMA FARMACIA
+==============================
+1. Ver productos
+2. Ver clientes
+3. Buscar producto
+4. Registrar venta
+5. Acumular puntos
+6. Ver alertas
+7. Ejecutar demostraci¢n
+8. Salir
+
+Seleccione opci¢n: 
+Nombre cliente: 
+Cliente no encontrado
 
 ==============================
       SISTEMA FARMACIA
