@@ -215,3 +215,56 @@ Si van a hacer un cambio nuevo, la forma correcta de probarlo es la misma: corre
 - `ServicioVentas.RegistrarVenta` (con su validación de "stock insuficiente") sigue sin un llamador real — `FarmaciaFacade` resta el stock directamente, igual que hacía `Program.cs` antes, para no cambiar ese comportamiento sin autorización.
 
 Para el resto de la historia — puntos de dolor completos, por qué se descartaron otros patrones, la matriz de principios, los riesgos y las dos vistas para audiencias distintas — todo está en `Actividades/`, una carpeta por actividad del enunciado.
+
+## 6. Auditoría SOLID posterior — revisión ítem por ítem
+
+Después de esta refactorización se hizo una segunda auditoría SOLID independiente (`Auditoria/Auditoria_exacta_violaciones_SOLID_Farmacia.docx`) que listó 12 puntos. Aquí está la revisión de cada uno: si es una **violación real que hay que arreglar** o una **decisión de diseño deliberada** que se sostiene bajo las reglas del reto (comportamiento congelado, prohibido cambiar el estilo arquitectónico, prohibido contenedor de inyección de dependencias, y penalización de −0.3 por cada patrón de sobre‑ingeniería).
+
+**Conclusión corta: ninguno de los 12 puntos deja una celda de la matriz SOLID en "Roto".** No se hizo ningún cambio de código a raíz de esta auditoría. 11 de los 12 son decisiones defendibles o tensiones ya declaradas en `Actividad_4.1_Matriz_Verificacion_SOLID.docx`; 1 (el #2) es una tensión real que se deja explícitamente para después de la entrega por riesgo de romper comportamiento.
+
+| # | Punto de la auditoría | Veredicto | ¿Cambió código? |
+|---|---|---|---|
+| 1 | `ServicioVentas` — `if (item is Producto producto)` | Decisión de diseño (código muerto) | No |
+| 2 | `ServicioCliente.Cargar` concentra responsabilidades | **Tensión real — diferida a post‑entrega** | No |
+| 3 | `ProductoFactory.CrearPorTipo` — `switch` | Decisión de diseño (ya declarada como tensión compensada) | No |
+| 4 | `IProductoCreador` acoplado a `Laboratorio` | Decisión de diseño (la auditoría misma dice que no es violación) | No |
+| 5 | `ServicioProducto` depende de `EventoStockMinimo`/`EventoVencimiento` concretos | Decisión de diseño | No |
+| 6 | `ServicioCliente` depende de `EventoPuntos` concreto | Decisión de diseño | No |
+| 7 | `ServicioMovimiento` depende de `EventoMovimiento` concreto | Decisión de diseño | No |
+| 8 | `EventoStockMinimo.Disparar(Producto)` | Decisión de diseño (la auditoría lo marca prioridad BAJA) | No |
+| 9 | `EventoVencimiento.Disparar(Producto)` | Decisión de diseño (prioridad BAJA) | No |
+| 10 | `Producto.MostrarInformacion()` usa `Console.WriteLine` | Decisión de diseño (ya compensada con `ObtenerInformacion()`) | No |
+| 11 | `Servicio.MostrarInformacion()` usa `Console.WriteLine` | Decisión de diseño (igual que #10) | No |
+| 12 | `FarmaciaFacade` vs `ServicioVentas` — dos caminos de venta | Decisión de diseño (documentada; el segundo camino es código muerto) | No |
+
+### Detalle del razonamiento
+
+**#1 — `ServicioVentas.RegistrarVenta` hace `if (item is Producto producto)` para restar stock.**
+El `is Producto` dentro de un método que recibe `IVendible` es, en abstracto, un olor a OCP/DIP. Pero ese método **no tiene ningún llamador** en todo el proyecto (búsquenlo: solo se usa `ServicioVentas.AplicarDescuento`). El flujo de venta real (`FarmaciaFacade.RegistrarVenta`) no tiene ningún type check. "Arreglarlo" con polimorfismo obligaría a meterle semántica de `Stock` a `IVendible` — que también implementa `Servicio`, que no tiene stock — es decir, tocar la abstracción central para limpiar código que nunca se ejecuta. Se deja como está y documentado. Si el equipo quiere, la jugada segura es *borrar* los métodos sin uso de `ServicioVentas` (`RegistrarVenta`, `CalcularTotal`, `AgregarItem`, `ObtenerItems`, `ObtenerItem`), no reescribirlos — pero eso es opcional y post‑entrega.
+
+**#2 — `ServicioCliente.Cargar` mezcla persistencia + parsing + construcción de dominio + presentación.**
+Esta sí es una **tensión SRP real**. `Cargar` hace `File.Exists`, `File.ReadAllLines`, `Split`, `decimal.Parse`, `new Cliente`, `new ServicioDescuento`, `new Convenio` y un `Console.WriteLine` (en la rama de tasa inválida). Lo correcto sería extraer un `RepositorioClienteArchivo`, exactamente como ya se hizo con `RepositorioProductoArchivo` y `RepositorioUsuarioArchivo` en el Reto 1 — `ServicioCliente.Cargar` es el único que quedó sin ese tratamiento. **No se hace ahora** por tres razones: (a) es el mismo método donde vive la carga del convenio de SC‑3, el *único* cambio de comportamiento autorizado del reto, así que moverlo pone en riesgo lo único que no se puede romper; (b) obligaría a re‑ejecutar todos los escenarios de caracterización el día de la entrega; (c) es tarea de "terminar la limpieza SRP del Reto 1", no una decisión de patrón del Reto 2. Queda registrada como tensión conocida (la celda DIP de la matriz 4.1 ya la menciona) y como primera candidata de trabajo post‑entrega. Preservar al moverla: los mensajes `"Clientes cargados"` / `"Archivo no encontrado"` / `ex.Message` y la advertencia de tasa fuera de `[0,1]`.
+
+**#3 — `ProductoFactory.CrearPorTipo` despacha con un `switch`.**
+Tensión OCP real y **ya declarada** como "Tensionado pero compensado" en la matriz 4.1: agregar un tipo es una rama nueva en un `switch` de expresión que solo mapea texto → `IProductoCreador`, sin lógica de negocio, con `default` = comportamiento histórico (cápsula). La auditoría pide un "registro/resolución extensible". Para un sistema con **dos** tipos de producto, y con la regla explícita de no sobre‑ingeniería (−0.3) y de no meter contenedores, un registro abierto o resolución por reflexión sería precisamente el tipo de abstracción que el enunciado penaliza. Se mantiene el `switch`.
+
+**#4 — `IProductoCreador.Crear(..., Laboratorio laboratorio)`.**
+La auditoría misma dice "no es una violación SOLID inequívoca". Todos los creadores actuales construyen un `Medicamento`, que **requiere** `Laboratorio`. Un creador que no lo necesite (cosmético, alimento) solo existiría si se implementara SC‑1, que **no** es la solicitud de cambio elegida (se eligió SC‑3). Generalizar la firma hoy para un creador que no existe es generalidad especulativa (YAGNI). Se revisa cuando/si se implemente SC‑1.
+
+**#5, #6, #7 — Los servicios dependen de clases `Evento*` concretas, no de interfaces.**
+Las dependencias **ya están invertidas en construcción**: se inyectan por constructor y se arman en el composition root (eso fue el DIP del Reto 1). Que sean tipos concretos y no interfaces no las hace sustituibles de todos modos: cada `Evento*` tiene una firma de `Disparar` distinta (`Disparar(Producto)`, `Disparar(string, int)`, `Disparar(string)`) y un solo suscriptor. Una interfaz común `IEvento`/`IPublisher` para cuatro contenedores de delegado de una línea, en una app de consola, colapsaría cuatro cargas de datos distintas en un genérico y arriesgaría el texto exacto de las alertas — abstracción por la abstracción misma, que la auditoría también desaconseja ("no introducir complejidad innecesaria", "solo si se adopta una abstracción común… no es prioritario"). La fila Observer de la matriz 4.1 ya cubre esto: el canal de salida **sí** está detrás de `IServicioNotificacion` (ahí es donde importa para OCP); el lado Subject queda concreto, que es normal en Observer.
+
+**#8, #9 — `EventoStockMinimo`/`EventoVencimiento` conocen `Producto`.**
+La auditoría los marca prioridad **BAJA** y "solo junto con una estrategia común de eventos; no aisladamente". Un evento de alerta de inventario que conoce la entidad de inventario es acoplamiento natural: solo `Producto` tiene stock y vencimiento (los `Servicio` no), así que `Producto` es el tipo honesto ahí. Sin cambio.
+
+**#10, #11 — `Producto.MostrarInformacion()` y `Servicio.MostrarInformacion()` escriben en consola.**
+El Reto 1 ya hizo la separación correcta: extrajo `ObtenerInformacion()` (devuelve `string`) y dejó `MostrarInformacion()` como adaptador delgado para **no romper el contrato de `IVendible`**. Además, `MostrarInformacion()` **no se llama en ningún punto del flujo** — los menús (opciones 1 y 3) y la demostración arman su propia salida con `Console.WriteLine` inline. Es decir, la "mezcla" SRP vive en un método que es parte de un contrato pero que en ejecución nunca corre. Quitarle el `Console` o cambiar `IVendible` para eliminar el método sería SRP de papel con cero efecto observable y con riesgo sobre la abstracción central. Tensión menor, ya compensada, se acepta.
+
+**#12 — `FarmaciaFacade.RegistrarVenta` y `ServicioVentas.RegistrarVenta` son dos caminos de venta con reglas distintas.**
+`ServicioVentas.RegistrarVenta` **no tiene llamador** — funcionalmente hay un solo camino vivo, el de la Facade. La Facade **no delega** en `ServicioVentas.RegistrarVenta` a propósito: ese método tiene un guard de `"Stock insuficiente"` que cambiaría el comportamiento observable de una venta que supera el stock (hoy el sistema deja el stock en negativo sin quejarse — ese es el comportamiento congelado). Está explicado en el XML‑doc de `FarmaciaFacade` y en la sección 5 de este README. La auditoría coincide en que "una Facade puede coordinar" y que no es violación inequívoca. El riesgo R‑04 (Actividad 5.1) ya vigila que la Facade no crezca con lógica de negocio. Limpiar el código muerto de `ServicioVentas` es opcional y post‑entrega.
+
+### Notas de la auditoría que se confirman
+
+- **`Program.cs` no es una God Class.** Hace de composition root y de UI de consola — dos roles legítimos y acotados en una app de este tamaño. Ya no contiene lógica de negocio de cada opción de menú (eso son los `ComandoXxx`).
+- **`Cliente.AcumularPuntos(int)` está sin uso** (el flujo real hace `cliente.Puntos += puntos` dentro de `ServicioCliente.AcumularPuntos`), pero se deja: es inofensivo y borrarlo solo por SOLID no aporta.
+- **No se afirma que OCP/DIP estén "resueltos del todo".** Siguen en pie el `switch` de la fábrica (#3) y las dependencias concretas a `Evento*` (#5‑#9); están declaradas como tensiones compensadas en la matriz 4.1, no como principios intactos.
